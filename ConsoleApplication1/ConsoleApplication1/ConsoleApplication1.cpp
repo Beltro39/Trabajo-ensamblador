@@ -11,8 +11,14 @@ int main(int argc)
 	int x;
 	int a;
 	int m;
-	int radian = 180;
-	double s[1];
+	double resultado= 0.0;
+	int var;
+	double varD;
+	double s;
+	int n;
+	double nPorDosMasUno= 0;
+
+
 	cout << "Digite un numero x: ";
 	cin >> x;
 
@@ -23,38 +29,97 @@ int main(int argc)
 	cin >> m;
 
 	_asm {
-		finit
-
-		fild x;
-		fild a;
-		fdiv;
-		fstp s[0];
+		//; TITLE Arco tangente por medio de una serie de Taylor
+		//INCLUDE Irvine32.inc
 
 
-		/*
-		move ebx, x
-		filds ebx;
-		move ebx, a
-		filds ebx;
-		fdiv 
-		fsts s;
-		*/
+		//.DATA
+	//	var  DWORD ? ;
+		//varD REAL4 ? ;
 		
+		//.CODE 
+        //main PROC
+         finit
+	
+
+	
+	     cmp m, 0;              //if(m>0){Haga todo}
+	     jle mIgualACero;
+	
+	     mov ecx, m;
+         Sumatoria:
+	     fild x;                //Se agrega x a la pila
+	     fild a;                //Se agrega a a la pila
+	     fdiv;                  //El valor del tope de la pila es x/a
+	     fst s;                 // S= x/a 
+
+
+	     MOV n, ecx;
+	     MOV eax, n;            //eax= n
+	     MOV ebx, 2;            //ebx= 2
+	     IMUL ebx;              //eax= eax*ebx
+         MOV ecx, eax;          //ecx= eax
+
+	                            //Proceso para darle el valor a la variable nPorDosMasUno
+	     ADD eax, 1;
+	     MOV var, eax;
+	     fild var;
+	     fstp nPorDosMasUno;    //nPorDosMasUno= 2n+1
+	  
+	
+         Potenciacion:
+	       fmul s;
+	     loop Potenciacion;
+	                            //Tope de la pila= (x/a)**(2n+1)
+	  
+
+	     fdiv nPorDosMasUno;    //Tope de la pila [(x/a)**(2n+1)]/(2n+1)
+	 
+	
+
+	                            //Proceso para saber si n es par o impar
+	     xor edx, edx;
+	     MOV eax, n;
+	     MOV ecx, 2;            //Se hace mirando si el residuo de la
+	     div ecx;               //division por 2, es uno o cero
+	
+	     cmp edx, 0;
+	     jle par;               //Si n es par, salta a la etiqueta par
+	     mov eax, -1;           //Si n es impar, se multiplica todo por -1, de lo contrario solo se multiplica por 1
+
+         par:
+	     MOV var, eax;
+	     fild var;
+	     fstp varD;
+	     fmul varD;              //Tope de la pila= [[(x/a)**(2n+1)]/(2n+1)]*(-1)**n
+ 
+
+	     fadd resultado;
+         fstp resultado;         //Resultado guardara la sumatoria
+	     fstp varD;
+	     MOV ecx, n;
+	     loop Sumatoria;
+
+         mIgualACero:
+	     fild x;                 //Se agrega x a la pila
+	     fild a;                 //Se agrega a a la pila
+	     fdiv;                   //El valor del tope de la pila es x/a
+
+	     fadd resultado;             
+	     fstp resultado;
+    
+	   // main ENDP
+       // END main 
 	}
 	cout << "\n";
-	cout << s[0];
+	cout << resultado;
 	cout << "\n";
 
-	/*
 	cout << "\n";
-	cout << x;
+	//cout << nPorDosMasUno;
 	cout << "\n";
-	cout << a;
-	cout << "\n";
-	cout << m;
-	cout << "\n";
-	*/
 
+	
 	
 	getchar();
 	system("pause");
