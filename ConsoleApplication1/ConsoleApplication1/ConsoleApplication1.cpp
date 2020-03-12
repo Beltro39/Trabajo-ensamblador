@@ -1,13 +1,32 @@
 /// ConsoleApplication1.cpp: define el punto de entrada de la aplicación de consola.
 //
 
+	
 #include <iostream>
 #include <string>
 using namespace std;
 
 int main(int argc)
 {
-	// Your code here!
+
+
+
+	// Informacion relevate del programa y de los creadores
+	cout << "\n"
+		<< " BIENVENIDO \n "
+		<< "\n"
+		<< "Asignatura: ARQUITECTURA DE COMPUTADORES 2019-2\n"
+		<< "Creadores del programa: \n"
+		<< "1. SEBASTIAN BELTRAN ARENAS \n"
+		<< "2. DANIER STEVEN MUÑOZ BETANCUR \n"
+		<< "3. YINIER ARTURO RAMIREZ BARAHONA \n"
+		<< "______________________________________________________________________________________________________________________________________ \n"
+		<< "Mediante este programa se podra realizar la operacion de atan(x/a) \n"
+		<< "mediante la seria de Taylor propuesta en el quiz \n"
+		<< "la cual se desarrollo con una mezcla entre el lenguaje c++ y ensamblador\n"
+		<< "______________________________________________________________________________________________________________________________________ \n";
+
+
 	int x;
 	int a;
 	int m;
